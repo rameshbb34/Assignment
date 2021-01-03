@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Component } from 'react/';
+import Header from './Components/Header';
+import Data from './Components/Data';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class Assignment extends Component {
+  state = {
+    posts: []
+  }
+  componentDidMount() {
+    fetch("https://www.reddit.com/r/reactjs.json")
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      this.setState({
+        posts: res
+      })
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Header></Header>
+        <ul><Data postData={this.state.posts}></Data></ul>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default Assignment;
